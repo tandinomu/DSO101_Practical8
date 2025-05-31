@@ -15,11 +15,8 @@ The objective of this practical is to implement a complete Continuous Integratio
 - `server.js` - Express server with static file serving and health check endpoint
 - `public/index.html` - Static webpage with modern CSS styling and interactive elements
 
-**Key features implemented:**
-- Health check endpoint at `/health` returning JSON status
-- Static file serving from public directory
-- Responsive design with glassmorphism effects
-- Error handling and logging
+![app](./images/app.png)
+
 
 ### Step 2: Containerized with Docker
 
