@@ -27,6 +27,8 @@ The objective of this practical is to implement a complete Continuous Integratio
 - Implemented health check commands
 - Exposed port 3000 for the application
 
+![df](./images/dockerfile.png)
+
 **Created .dockerignore:**
 - Excluded node_modules, git files, and development artifacts
 - Reduced image size and build time
