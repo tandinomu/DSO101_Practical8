@@ -90,11 +90,15 @@ jobs:
     steps:
     - name: Deploy to Render
       run: |
-        curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" \
-          -H "Content-Type: application/json" \
-          -d '{"clear_cache": true}'
+        if [ -n "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{"clear_cache": true}'
+        else
+          echo "RENDER_DEPLOY_HOOK_URL secret not set. Skipping deployment."
+        fi
       
     - name: Deployment notification
       run: |
-        echo "🚀 Deployment triggered on Render!"
+        echo "Deployment triggered on Render!"
         echo "Check your Render dashboard for deployment status."
