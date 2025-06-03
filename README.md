@@ -30,71 +30,66 @@ The objective of this practical is to implement a complete Continuous Integratio
 ![df](./images/dockerfile.png)
 
 **Created .dockerignore:**
-- Excluded node_modules, git files, and development artifacts
-- Reduced image size and build time
 
-### Step 3: Implemented GitHub Actions CI/CD Pipeline
+### **Step 3: GitHub Actions Workflow**
+- Created `.github/workflows/ci-cd.yml` file
+- Configured 3-job pipeline structure:
+  - Test Application
+  - Build and Push Docker Image  
+  - Trigger Render Deployment
 
-**Created `.github/workflows/ci-cd.yml` with three jobs:**
+### **Step 4: Repository Secrets Setup**
+- Added `DOCKERHUB_USERNAME`: tandinomu
+- Added `DOCKERHUB_TOKEN`: Access token for authentication
 
-**Job 1: Test**
-- Checkout code from repository
-- Setup Node.js environment with caching
-- Install dependencies using `npm ci`
-- Run health check tests to verify application functionality
+### **Step 6: Render Deployment Setup**
+- Created Render web service
 
-**Job 2: Build and Push**
-- Setup Docker Buildx for multi-platform builds
-- Authenticate with Docker Hub using secrets
-- Extract metadata and generate image tags
-- Build Docker image for AMD64 and ARM64 architectures
-- Push images to Docker Hub registry with multiple tags
+![render](./images/render.pngs)
 
-**Job 3: Deploy**
-- Trigger deployment on Render using webhook
-- Send deployment notification
+- Set up auto-deploy webhook integration
 
-### Step 4: Configuration and Security
+![hook](./images/hook.png)
 
-**Implemented security measures:**
-- Used GitHub Secrets for sensitive data (Docker Hub credentials, deploy hooks)
-- Implemented branch protection by running pipeline only on main branch
-- Used least-privilege access tokens
-- Added container security with non-root user
+![secrets](./images/hook.png)
 
-**Pipeline triggers:**
-- Runs on push to main/master branches  
-- Runs on pull requests for testing
-- Conditional deployment only on main branch pushes
 
-### Step 5: Cloud Deployment Setup
+### **Step 7: Pipeline Testing**
+- Pushed code to main branch
+- Verified GitHub Actions execution
 
-**Render configuration:**
-- Connected Docker Hub registry to Render
-- Configured web service to pull latest image
-- Set up automatic deployment triggers via webhooks
-- Configured port mapping and health checks
+![success](./images/success.png)
 
-## Technical Implementation Details
+- Confirmed Docker image build and push
+![image](./images/dockerhubimage.png)
 
-**Multi-platform Docker builds:** Supports both AMD64 and ARM64 architectures for broader compatibility
+- Validated live deployment
+![render](./images/deployedonrender.png)
 
-**Caching optimization:** Implemented GitHub Actions cache for faster builds and Docker layer caching
+## Challenges Faced
 
-**Image tagging strategy:** 
-- `latest` for production deployments
-- Branch-based tags for feature branches  
-- SHA-based tags for specific commits
+### 1. **Package Lock Inconsistency**
+**Issue**: npm ci command failures in Docker builds  
+**Error**: Missing or inconsistent package-lock.json  
+**Solution**: Generated consistent package-lock.json with `npm install`
 
-**Health monitoring:** Built-in health check endpoints for container orchestration and monitoring
+### 2. **GitHub Actions Not Triggering**
+**Issue**: Pipeline not running automatically  
+**Error**: No workflow executions on code push  
+**Solution**: Ensured push to `main` branch and verified workflow file syntax
+
+### 3. **Port Configuration Mismatch**
+**Issue**: Application not accessible after deployment  
+**Error**: Port binding conflicts  
+**Solution**: Configured proper port mapping 
 
 ## Conclusion
+This CI/CD implementation successfully demonstrates modern DevOps practices by automating the entire software delivery pipeline. The project achieved its primary objectives of establishing automated testing, containerization, and deployment workflows.
+Key Achievements:
 
-This practical successfully demonstrates a complete CI/CD pipeline that automates the entire software delivery process. The implementation achieved full automation of build, test, and deployment processes, eliminating manual errors and reducing deployment time to 3-5 minutes. The pipeline includes multi-platform Docker builds, automated testing, secure secret management, and health monitoring endpoints. This setup serves as a scalable foundation for modern DevOps practices and can be extended with additional testing stages and advanced deployment strategies.
+- Automated testing on every code commit
+- Dockerized application with multi-platform support
+- Seamless deployment to production environment
+- Secure credential management implementation
 
-**Key Benefits Achieved:**
-- Reduced deployment time from manual process to automated 3-5 minute pipeline
-- Eliminated manual errors in build and deployment process  
-- Enabled continuous delivery with confidence through automated testing
-- Established infrastructure as code for reproducible deployments
-- Created a scalable foundation for team collaboration and rapid development cycles
+The pipeline reduces deployment time from manual hours to automated minutes while ensuring code quality through automated testing. This foundation provides scalable infrastructure for future development and establishes best practices for continuous integration and deployment.
