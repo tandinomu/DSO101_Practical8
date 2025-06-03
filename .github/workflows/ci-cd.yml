@@ -7,7 +7,7 @@ on:
     branches: [ main, master ]
 
 env:
-  DOCKER_IMAGE_NAME: your-dockerhub-username/cicd-demo-app
+  DOCKER_IMAGE_NAME: tandinomu/cicd-demo-app
   NODE_VERSION: '18'
 
 jobs:
